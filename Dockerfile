@@ -1,15 +1,27 @@
-# Use an official OpenJDK runtime (Change version if needed)
-FROM openjdk:21-jdk-slim
+# Use an official OpenJDK runtime
+FROM openjdk:21-jdk-slim AS build
 
-# Set the working directory inside the container
+# Set the working directory for application
 WORKDIR /app
 
-# Copy the built JAR file into the container
-#COPY target/*.jar app.jar
-COPY target/JobBoard-1.0-SNAPSHOT.jar app.jar
+# Copy the Maven wrapper and project files
+COPY . .
 
-# Expose port 8080 (or the port your Spring Boot app runs on)
+# Build the application (this generates target/*.jar)
+RUN ./mvnw clean package -DskipTests
+
+# Use a minimal JDK runtime for running the application
+FROM openjdk:21-jdk-slim
+
+# Set working directory
+WORKDIR /app
+
+# Copy the generated JAR from the build stage
+COPY --from=build /app/target/*.jar app.jar
+
+# Expose port 8080
 EXPOSE 8080
 
-# Run the JAR file
-CMD ["java", "-jar", "app.jar"]COPY target/JobBoard-1.0-SNAPSHOT.jar app.jar
+# Run the application
+CMD ["java", "-jar", "app.jar"]
+
