@@ -2,6 +2,12 @@ FROM mcr.microsoft.com/playwright/java:v1.40.0-jammy
 
 WORKDIR /app
 
-COPY target/JobBoard-1.0-SNAPSHOT.jar /app/app.jar
+# Copy project files
+COPY . /app
 
-CMD ["java", "-jar", "/app/app.jar"]
+# Build the JAR inside the container
+RUN ./mvnw clean package
+
+# Copy the built JAR
+CMD ["java", "-jar", "/app/target/JobBoard-1.0-SNAPSHOT.jar"]
+
