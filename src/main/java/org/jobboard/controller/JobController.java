@@ -9,7 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "https://job-board-frontend-ylljl7c9m-nishaths-projects-4d6be64e.vercel.app")
+//@CrossOrigin(origins = "https://job-board-frontend-ylljl7c9m-nishaths-projects-4d6be64e.vercel.app")
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://job-board-frontend-sepia.vercel.app")
 @RestController
 @RequestMapping("/api/jobs")
 public class JobController {
